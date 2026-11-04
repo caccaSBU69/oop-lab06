@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.random.RandomGenerator;
 
+import it.unibo.exceptions.*;
 import static it.unibo.exceptions.arithmetic.ArithmeticService.KEYWORDS;
 import static it.unibo.exceptions.arithmetic.ArithmeticUtil.nullIfNumberOrException;
 
@@ -29,6 +30,10 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
         /*
          * The probability should be in [0, 1[!
          */
+        if (failProbability >= 0 && failProbability < 1) {
+            final String msg = "Out of bounds, probability must be between 0 and 1 excluded "+ failProbability;
+            throw new java.lang.IllegalArgumentException(msg);
+        }
         this.failProbability = failProbability;
         randomGenerator = new Random(randomSeed);
     }
@@ -79,7 +84,7 @@ public final class ServiceBehindUnstableNetwork implements NetworkComponent {
 
     private void accessTheNetwork(final String message) throws IOException {
         if (randomGenerator.nextDouble() < failProbability) {
-            throw new IOException("Generic I/O error");
+            final NetworkException e = new NetworkException(message);
         }
     }
 
