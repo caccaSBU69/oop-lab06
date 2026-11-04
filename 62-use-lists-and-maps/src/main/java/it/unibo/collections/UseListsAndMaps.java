@@ -2,6 +2,10 @@ package it.unibo.collections;
 
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Example class using {@link List} and {@link Map}.
@@ -28,7 +32,7 @@ public final class UseListsAndMaps {
          */
         List<Integer> n1 = new ArrayList<Integer> () ;
         for(int i = MIN_LIST ; i < MAX_LIST ; i++) {
-            n.add(Integer.valueOf(i));
+            n1.add(Integer.valueOf(i));
         }
         /*
          * 2) Create a new LinkedList<Integer> and, in a single line of code
