@@ -63,7 +63,7 @@ public final class UseArithmeticService {
         try {
             return server.receiveResponse();
         } catch (IOException e) {
-            retryReceiveOnNetworkError(server);
+            return retryReceiveOnNetworkError(server);
         }
     }
 

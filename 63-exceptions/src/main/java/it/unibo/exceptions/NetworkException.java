@@ -6,10 +6,10 @@ import java.io.IOException;
 public class NetworkException extends IOException {
 
     public NetworkException() {
-        throw new IOException("Network error: no response");
+        super("Network error: no response");
     }
 
     public NetworkException(String s) {
-        throw new IOException("Network error while sending message: <message>");
+        super("Network error while sending message: " + s);
     }
 }
