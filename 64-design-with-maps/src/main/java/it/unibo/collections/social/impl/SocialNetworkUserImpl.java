@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.StreamHandler;
 
 /**
  * This will be an implementation of
@@ -38,6 +39,7 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      *
      * think of what type of keys and values would best suit the requirements
      */
+    Map<String,Set<U>> groups = new HashMap<>();
 
     /*
      * [CONSTRUCTORS]
@@ -64,12 +66,15 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      *            application
      */
     public SocialNetworkUserImpl(final String name, final String surname, final String user, final int userAge) {
-        super(null, null, null, 0);
+        super(name, surname, user, userAge);
     }
 
     /*
      * 2) Define a further constructor where the age defaults to -1
      */
+    public SocialNetworkUserImpl(final String name, final String surname, final String user) {
+        this(name, surname, user, -1);
+    }
 
     /*
      * [METHODS]
@@ -78,7 +83,12 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public boolean addFollowedUser(final String circle, final U user) {
-        return false;
+        Set<U> group = groups.get(circle);
+        if (group == null) {
+            group = new HashSet<>();
+            groups.put(circle, group);
+        }
+        return group.add(user);
     }
 
     /**
@@ -88,11 +98,21 @@ public final class SocialNetworkUserImpl<U extends User> extends UserImpl implem
      */
     @Override
     public Collection<U> getFollowedUsersInGroup(final String groupName) {
-        return null;
+        Set<U> group = groups.get(groupName);
+        if(group == null) {
+            group = new HashSet<>();
+        }
+        return new ArrayList<>(group);
     }
 
     @Override
     public List<U> getFollowedUsers() {
-        return null;
+        Set<U> followed = new HashSet<>();
+        for(Set<U> g : groups.values()) {
+            for(U gu : g) {
+            followed.add(gu);
+            }
+        }
+        return new ArrayList<>(followed);
     }
 }
